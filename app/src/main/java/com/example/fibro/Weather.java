@@ -1,5 +1,6 @@
 package com.example.fibro;
 
+import android.content.Context;
 import android.os.StrictMode;
 import android.util.Log;
 
@@ -21,8 +22,14 @@ import com.google.gson.reflect.*;
 public class Weather { // TODO: Run networking on new Thread or AsyncTask
 
     double pressure;
+    private double mLat;
+    private double mLon;
 
-    public Weather(){ // constructor
+
+
+    public Weather(double lat, double lon){ // constructor
+        mLat = lat;
+        mLon = lon;
     }
     /***
      * Converts JSON data into a Map using GSON
@@ -34,13 +41,19 @@ public class Weather { // TODO: Run networking on new Thread or AsyncTask
         return map;
     }
 
+    public void refresh(){
+
+    }
+
     /***
      * Retrieves / updates weather data from OpenWeatherMap API
-     * and stores the values in variables for later use
+     * and stores the values in variables for later use.
+     * Overrides run method from Thread to run networking in a thread other than main.
      */
+
     public void getData(){
 
-        String urlString = "https://api.openweathermap.org/data/2.5/weather?q=" + "Espoo" + "&appid=" + "71157a0f49ae0e66bc6ad5d523d8554b"; // API URL + location and API key TODO: variable location
+        String urlString = "https://api.openweathermap.org/data/2.5/onecall?lat=" + mLat + "&lon=" + mLon + "&exclude=current,minutely,hourly" + "&appid=" + "71157a0f49ae0e66bc6ad5d523d8554b"; // API URL + location and API key TODO: variable location
 
         try{
             StringBuilder result = new StringBuilder();
@@ -54,15 +67,21 @@ public class Weather { // TODO: Run networking on new Thread or AsyncTask
             rd.close();
             Log.i("FIBRO", result.toString()); // Log raw data to Logcat
             Map<String, Object> respMap = jsonToMap(result.toString()); // Maps the raw data
-            Map<String, Object> mainMap = jsonToMap(respMap.get("main").toString()); // Maps data from category "main" to its own Map
+            Map<String, Object> dayMap = jsonToMap(respMap.get("daily").toString()); // Maps data from category "main" to its own Map
+            Map<String, Object> day0Map = jsonToMap(dayMap.get("0").toString());
+            Map<String, Object> day1Map = jsonToMap(respMap.get("1").toString());
+            Map<String, Object> day2Map = jsonToMap(respMap.get("2").toString());
+            Map<String, Object> day3Map = jsonToMap(respMap.get("3").toString());
 
-            pressure = Double.parseDouble(mainMap.get("pressure").toString()); // Assign value "pressure" from "main" category of Mapped data to variable
+
+            pressure = Double.parseDouble(day0Map.get("pressure").toString()); // Assign value "pressure" from "main" category of Mapped data to variable
                                                                                 // TODO: Read and store more information into other variables
 
 
         } catch(IOException e){
             Log.e("FIBRO",e.getMessage()); // Log possible errors to Logcat
         }
+
     }
 
     /***
