@@ -24,7 +24,7 @@ TextView lon;
         GPSTracker gps = new GPSTracker(this);
         lat.setText(Double.toString(gps.getLatitude()));
         lon.setText(Double.toString(gps.getLongitude()));
-        Weather weather = new Weather(gps.getLatitude(),gps.getLongitude());
+        Weather weather = new Weather();
         weather.getData();
 
         //ThreadService.enqueueWork(this, getIntent());
