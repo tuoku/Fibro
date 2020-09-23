@@ -14,40 +14,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="43dp">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="97dp"
-            android:layout_height="111dp"
-            android:layout_marginStart="60dp"
-            android:layout_marginTop="44dp"
-            android:background="@drawable/awesome_emoticon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/awesome_emoticon" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="196dp"
-            android:layout_height="63dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="80dp"
-            android:layout_marginEnd="4dp"
-            android:text="@string/emoji"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.25"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:id="@+id/divider"
-            android:layout_width="409dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="48dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButton"
             android:layout_width="wrap_content"
@@ -59,6 +25,54 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@android:drawable/ic_input_add" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card"
+            android:layout_width="393dp"
+            android:layout_height="122dp"
+            android:layout_margin="8dp"
+            app:cardElevation="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.06999999">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="376dp"
+                    android:layout_height="105dp"
+                    android:layout_margin="8dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/weatherIcon"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/awesome_emoticon"
+                        android:scaleType="centerCrop" />
+
+                    <TextView
+                        android:id="@+id/weatherText"
+                        android:layout_width="258dp"
+                        android:layout_height="63dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center|top"
+                        android:text="Ei matalapainetta "
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="?android:attr/textColorSecondary" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

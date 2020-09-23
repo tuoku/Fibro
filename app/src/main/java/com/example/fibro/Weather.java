@@ -2,6 +2,8 @@ package com.example.fibro;
 
 import android.os.StrictMode;
 import android.util.Log;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,6 +37,8 @@ public class Weather { // TODO: Run networking on new Thread or AsyncTask
     }
 
     public void refresh(){
+
+
     }
 
     /***
@@ -77,5 +81,10 @@ public class Weather { // TODO: Run networking on new Thread or AsyncTask
      */
     public String getPressure(){
         return String.valueOf(pressure);
+    }
+    public Boolean isLowPressure(){
+        if(pressure < 1013.0){
+            return true;
+        }else return false;
     }
 }
