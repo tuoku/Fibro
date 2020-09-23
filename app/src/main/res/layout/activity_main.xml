@@ -2,8 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fablay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:onClick="fabPressed"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,14 +17,19 @@
         tools:layout_editor_absoluteX="43dp">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
+            android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="27dp"
-            android:layout_marginBottom="27dp"
             android:clickable="true"
+            android:elevation="80dp"
+            android:onClick="fabPressed"
+            app:fabSize="auto"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.89"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.92"
             app:srcCompat="@android:drawable/ic_input_add" />
 
         <com.google.android.material.card.MaterialCardView
@@ -67,12 +74,13 @@
                         android:text="Ei matalapainetta "
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textColor="?android:attr/textColorSecondary" />
+
                 </LinearLayout>
 
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
