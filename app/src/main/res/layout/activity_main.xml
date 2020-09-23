@@ -20,6 +20,7 @@
             android:layout_height="111dp"
             android:layout_marginStart="60dp"
             android:layout_marginTop="44dp"
+            android:background="@drawable/awesome_emoticon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@drawable/awesome_emoticon" />
