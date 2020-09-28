@@ -16,6 +16,7 @@ import java.sql.Date;
 public class MoodDetails extends AppCompatActivity {
     EditText addDetails;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
