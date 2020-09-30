@@ -43,8 +43,12 @@ public class MainActivity extends AppCompatActivity {
         //GPSTracker gps = new GPSTracker(this);
         refresh();
         //ThreadService.enqueueWork(this, getIntent());
-         graph = (GraphView) findViewById(R.id.graph);
-
+         graph = findViewById(R.id.graph);
+         graph.getViewport().setYAxisBoundsManual(true);
+         graph.getViewport().setXAxisBoundsManual(true);
+         graph.getViewport().setMaxY(5.0);
+         graph.getViewport().setMaxX(7.0);
+         graph.getViewport().setScrollable(true);
          graph.addSeries(Graph.getInstance().getData());
 
     }
@@ -74,6 +78,12 @@ public class MainActivity extends AppCompatActivity {
         graph.addSeries(Graph.getInstance().getData());
         graph.removeAllSeries();
         Days.getInstance().setIndex(PreferenceService.getIndex());
+    }
+
+    @Override
+    protected void onResume(){
+        graph.addSeries(Graph.getInstance().getData());
+        super.onResume();
     }
 
 
