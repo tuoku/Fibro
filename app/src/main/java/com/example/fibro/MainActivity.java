@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
             icon.setImageResource(R.drawable.awesome_emoticon);
         }
         Log.i("FIBRO",weather.getPressure());
+        DayCreator.getInstance().setPressure(weather.pressure);
     }
     public void fabPressed(View view){
         Intent intent = new Intent(this, MoodSelector.class);

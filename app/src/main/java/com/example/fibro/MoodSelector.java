@@ -16,23 +16,30 @@ public class MoodSelector extends AppCompatActivity {
         setContentView(R.layout.activity_moodselector);
     }
     public void onButtonPressed(View v) {
+        int mood = 0;
         switch(v.getId()) {
             case R.id.awesomeButton:
                 Log.i("buttonPressed", "Awesome");
+                mood = 5;
                 break;
             case R.id.happyButton:
                 Log.i("buttonPressed", "Happy");
+                mood = 4;
                 break;
             case R.id.normalButton:
                 Log.i("buttonPressed", "Normal");
+                mood = 3;
                 break;
             case R.id.sadButton:
                 Log.i("buttonPressed", "Sad");
+                mood = 2;
                 break;
             case R.id.verySadButton:
                 Log.i("buttonPressed", "Very Sad");
+                mood = 1;
                 break;
         }
+        DayCreator.getInstance().setMood(mood);
         Intent intent = new Intent(this, MoodDetails.class);
         startActivity(intent);
     }
