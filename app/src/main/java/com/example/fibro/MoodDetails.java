@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -27,13 +28,11 @@ public class MoodDetails extends AppCompatActivity {
     public void onSaveButtonPressed(View v) {
         DayCreator.getInstance().setDetails(addDetails.getText().toString());
         DayCreator.getInstance().setDate(new Date(System.currentTimeMillis()));
-        DayCreator.getInstance().createDay();
         Gson gson = new Gson();
-        String jsonDays = gson.toJson(Days.getInstance().getDays());
-        SharedPreferences prefPut = getSharedPreferences("days", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor prefEditor = prefPut.edit();
-        prefEditor.putString(String.valueOf(new Date(System.currentTimeMillis())),jsonDays);
-        prefEditor.apply();
+        String jsonDays = gson.toJson(DayCreator.getInstance().createDay());
+        Log.d("save",jsonDays);
+        PreferenceService.saveData(jsonDays);
+        PreferenceService.setIndex();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

@@ -4,8 +4,8 @@ import java.sql.Date;
 
 public class Day {
     Date date;
-    int mood;
     String details;
+    int mood;
     double pressure;
 
     public Day(Date date, int mood, String details, double pressure){
@@ -23,8 +23,9 @@ public class Day {
     public void setPressure(double pressure){this.pressure = pressure;}
     public double getPressure(){return this.pressure;}
 
+
     @Override
     public String toString(){
-        return date + ", " + mood + ", " + details + ", " + pressure;
+        return "Day date=" + date + ", mood=" + mood + ", details=" + details + ",pressure= " + pressure;
     }
 }

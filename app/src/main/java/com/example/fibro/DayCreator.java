@@ -27,8 +27,8 @@ public class DayCreator {
     public void setPressure(double pressure){this.pressure = pressure;}
     public double getPressure(){return this.pressure;}
 
-    public void createDay(){
-        Days.getInstance().getDays().add(new Day(date, mood, details, pressure));
+    public Day createDay(){
+        return new Day(date, mood, details, pressure);
     }
 
 }
