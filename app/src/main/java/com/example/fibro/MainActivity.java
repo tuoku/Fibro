@@ -12,9 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -24,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fab;
     GraphView graph;
     public static SharedPreferences prefs;
+    Calendar calendar = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +51,28 @@ public class MainActivity extends AppCompatActivity {
         refresh();
         //ThreadService.enqueueWork(this, getIntent());
          graph = findViewById(R.id.graph);
-         graph.getViewport().setYAxisBoundsManual(true);
+        graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+            @Override
+            public String formatLabel(double value, boolean isValueX) {
+                if (isValueX) {
+                    Format formatter = new SimpleDateFormat("dd-MM");
+                    return formatter.format(value);
+                }
+                return super.formatLabel(value, isValueX);
+            }
+        });
+        prefs.edit().clear().commit();
+
+        graph.getViewport().setYAxisBoundsManual(true);
          graph.getViewport().setXAxisBoundsManual(true);
          graph.getViewport().setMaxY(5.0);
-         graph.getViewport().setMaxX(7.0);
+         graph.getViewport().setMinY(1.0);
+         graph.getViewport().setMaxX(Graph.getInstance().series.getLowestValueX() + (1000*60*60*24*7));
+         graph.getViewport().setMinX(Graph.getInstance().series.getLowestValueX());
          graph.getViewport().setScrollable(true);
+        // graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getApplicationContext()));
+         graph.getGridLabelRenderer().setNumHorizontalLabels(7);
+         graph.getGridLabelRenderer().setHumanRounding(true);
          graph.addSeries(Graph.getInstance().getData());
 
     }
@@ -82,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume(){
+        Days.getInstance().refresh();
         graph.addSeries(Graph.getInstance().getData());
         super.onResume();
     }

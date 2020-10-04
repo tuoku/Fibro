@@ -9,10 +9,13 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 public class Graph {
-    LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+    BarGraphSeries<DataPoint> series = new BarGraphSeries<>();
     public static final Graph ourInstance = new Graph();
     private Graph(){
-    series.setAnimated(true);
+    //series.setAnimated(true);
+    //series.setDrawDataPoints(true);
+        series.setSpacing(50);
+
     }
     public static Graph getInstance(){
         return ourInstance;
@@ -22,7 +25,7 @@ public class Graph {
         ourInstance.series.appendData(d,true,100,false);
     }
 
-    public LineGraphSeries<DataPoint> getData() {
+    public BarGraphSeries<DataPoint> getData() {
         return series;
     }
 }

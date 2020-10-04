@@ -51,7 +51,7 @@ public class Days {
                 String ss = s.replace("[", "");
                 String sss = ss.replace("]", "");
                 Day d = gson.fromJson(sss, Day.class);
-                Graph.getInstance().addPoint(new DataPoint(x, d.getMood()));
+                Graph.getInstance().addPoint(new DataPoint(d.getDate().getTime(), d.getMood()));
                 x++;
             }else break;
         }
