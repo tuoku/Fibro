@@ -16,10 +16,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".GraphDetailActivity"
-            android:label="@string/title_activity_graph_detail"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".MoodDetails" />
         <activity android:name=".MoodSelector" />
         <activity android:name=".MainActivity">
