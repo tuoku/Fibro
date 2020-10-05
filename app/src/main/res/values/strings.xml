@@ -3,4 +3,7 @@
     <string name="API_KEY">71157a0f49ae0e66bc6ad5d523d8554b</string>
     <string name="emoji">Ei matalapainetta luvassa</string>
     <string name="warning">Matalapainetta luvassa!</string>
+    <string name="title_activity_graph_detail">GraphDetailActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
 </resources>

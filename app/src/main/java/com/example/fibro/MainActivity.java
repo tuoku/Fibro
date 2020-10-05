@@ -1,9 +1,12 @@
 package com.example.fibro;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -16,11 +19,15 @@ import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.OnDataPointTapListener;
+import com.jjoe64.graphview.series.Series;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -31,24 +38,23 @@ public class MainActivity extends AppCompatActivity {
     GraphView graph;
     public static SharedPreferences prefs;
     Calendar calendar = Calendar.getInstance();
+    public Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-       StrictMode.setThreadPolicy(policy);
-       prefs = getSharedPreferences("days", MODE_PRIVATE);
-       Days.getInstance().refresh();
-       PreferenceService.setIndex();
-       Days.getInstance().setIndex(PreferenceService.getIndex());
-
+        context = this.getApplicationContext();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        prefs = getSharedPreferences("days", MODE_PRIVATE);
+        Days.getInstance().fetchDaysFromPrefs();
 
         text = findViewById(R.id.weatherText);
         icon = findViewById(R.id.weatherIcon);
         fab = findViewById(R.id.fab);
         //GPSTracker gps = new GPSTracker(this);
-        refresh();
+        refreshWeather();
         //ThreadService.enqueueWork(this, getIntent());
          graph = findViewById(R.id.graph);
         graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
@@ -61,25 +67,35 @@ public class MainActivity extends AppCompatActivity {
                 return super.formatLabel(value, isValueX);
             }
         });
-        prefs.edit().clear().commit();
+        //prefs.edit().clear().commit();
 
         graph.getViewport().setYAxisBoundsManual(true);
          graph.getViewport().setXAxisBoundsManual(true);
          graph.getViewport().setMaxY(5.0);
          graph.getViewport().setMinY(1.0);
-         graph.getViewport().setMaxX(Graph.getInstance().series.getLowestValueX() + (1000*60*60*24*7));
-         graph.getViewport().setMinX(Graph.getInstance().series.getLowestValueX());
-         graph.getViewport().setScrollable(true);
-        // graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getApplicationContext()));
-         graph.getGridLabelRenderer().setNumHorizontalLabels(7);
-         graph.getGridLabelRenderer().setHumanRounding(true);
-         graph.addSeries(Graph.getInstance().getData());
 
+         graph.getViewport().setScrollable(true);
+         graph.getViewport().setScalable(true);
+
+       //  graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getApplicationContext()));
+
+         graph.getGridLabelRenderer().setHumanRounding(false);
+         //graph.addSeries(Graph.getInstance().getData());
+            Graph.getInstance().getData().setOnDataPointTapListener(new OnDataPointTapListener() {
+            @Override
+            public void onTap(Series series, DataPointInterface dataPoint) {
+                Intent intent = new Intent(MainActivity.this, GraphDetailActivity.class);
+                intent.putExtra("X", dataPoint.getX());
+                startActivity(intent);
+            }
+        });
     }
 
-    public void refresh()
+
+    public void refreshWeather()
     {Weather weather = new Weather();
-        weather.getData();
+        weather.refresh();
+        Log.d("PRESSURE AFTER THREAD", weather.getPressure());
         if(weather.isLowPressure() == true){
             text.setText("On matalapainetta!");
             icon.setImageResource(R.drawable.very_sad_emoticon);
@@ -97,17 +113,26 @@ public class MainActivity extends AppCompatActivity {
 
     public void clear(View v){
         prefs.edit().clear().commit();
-        Days.getInstance().refresh();
+       // Days.getInstance().refresh();
         PreferenceService.setIndex();
         graph.addSeries(Graph.getInstance().getData());
         graph.removeAllSeries();
         Days.getInstance().setIndex(PreferenceService.getIndex());
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onResume(){
-        Days.getInstance().refresh();
+        graph.removeAllSeries();
+        Graph.getInstance().addDaysToSeries();
+
         graph.addSeries(Graph.getInstance().getData());
+        Log.d("MAIN", "ADDED TO SERIES");
+        graph.getViewport().setMaxX(Days.getInstance().getHighestX());
+        graph.getViewport().setMinX(Days.getInstance().getLowestX());
+        graph.getGridLabelRenderer().setNumHorizontalLabels(Days.getInstance().getDays().size()+1);
+        Log.d("LowestX", String.valueOf(Days.getInstance().getLowestX()));
+        Log.d("HighestX", String.valueOf(Days.getInstance().getHighestX()));
         super.onResume();
     }
 

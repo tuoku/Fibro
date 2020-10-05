@@ -14,9 +14,9 @@ public class PreferenceService {
         return MainActivity.prefs.getInt("INDEX",0);
     }
 
-    public static void saveData(String json){
+    public static void saveData(String key,String json){
         int i = Days.getInstance().getIndex();
-        MainActivity.prefs.edit().putString(String.valueOf(i),json).commit();
+        MainActivity.prefs.edit().putString(key,json).commit();
         Log.d("saveIndex", String.valueOf(i));
         Days.getInstance().setIndex(i+1);
 
