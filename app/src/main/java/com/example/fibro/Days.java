@@ -29,65 +29,74 @@ public class Days {
 
     Gson gson = new Gson();
 
-    public static Days getInstance(){
+    public static Days getInstance() {
         return ourInstance;
     }
 
-    private Days(){
+    private Days() {
         days = new ArrayList<>();
         //index = Integer.parseInt(PreferenceService.getByIndex("INDEX"));
     }
 
-    public ArrayList<Day> getDays(){
+    public ArrayList<Day> getDays() {
         return days;
     }
 
 
-    public void fetchDaysFromPrefs(){
-        Map<String,String> resMap = PreferenceService.getAll();
+    public void fetchDaysFromPrefs() {
+        Map<String, String> resMap = PreferenceService.getAll();
         Iterator it = resMap.entrySet().iterator();
-        while(it.hasNext()){
-            Map.Entry pair = (Map.Entry)it.next();
-            if(!(pair.getKey().equals("INDEX"))) {
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            if (!(pair.getKey().equals("INDEX"))) {
                 String s = pair.getValue().toString();
                 String ss = s.replace("[", "");
                 String sss = ss.replace("]", "");
                 Day d = gson.fromJson(sss, Day.class);
                 days.add(d);
                 Log.d("FETCHDAYS", "Added " + pair.getKey());
-                 //   Graph.getInstance().addPoint(new DataPoint(d.getDate().getTime(), d.getMood()));
-                   // L
-            }else break;
+                //   Graph.getInstance().addPoint(new DataPoint(d.getDate().getTime(), d.getMood()));
+                // L
+            } else break;
         }
         Log.d("FETCHDAYS", "Added all Days to ArrayList");
         sortArray(days);
         Log.d("FETCHDAYS", "Sorted ArrayList");
     }
+
     private void sortArray(ArrayList<Day> arrayList) {
         if (arrayList != null) {
             Collections.sort(arrayList, new Comparator<Day>() {
                 @Override
                 public int compare(Day o1, Day o2) {
-                    return o1.getDate().compareTo(o2.getDate()); }
+                    return o1.getDate().compareTo(o2.getDate());
+                }
             });
-        } }
+        }
+    }
 
-    public int getIndex(){
+    public int getIndex() {
         return index;
     }
 
-    public void setIndex(int i){
-        this.index=i;
+    public void setIndex(int i) {
+        this.index = i;
     }
 
-    public void addDay(Day d){
+    public void addDay(Day d) {
         days.add(d);
     }
-    public Long getLowestX(){
-        return days.get(0).getDate().getTime();
+
+    public Long getLowestX() {
+        if(!(days.isEmpty())) {
+            return days.get(0).getDate().getTime();
+        }else return System.currentTimeMillis();
     }
 
-    public Long getHighestX(){
-        return days.get(days.size()-1).getDate().getTime();
+
+    public Long getHighestX() {
+        if (!(days.isEmpty())) {
+            return days.get(days.size() - 1).getDate().getTime();
+        }else return System.currentTimeMillis();
     }
 }

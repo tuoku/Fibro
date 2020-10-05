@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         //GPSTracker gps = new GPSTracker(this);
         refreshWeather();
         //ThreadService.enqueueWork(this, getIntent());
-         graph = findViewById(R.id.graph);
+        graph = findViewById(R.id.graph);
         graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
             @Override
             public String formatLabel(double value, boolean isValueX) {
@@ -108,6 +108,10 @@ public class MainActivity extends AppCompatActivity {
     }
     public void fabPressed(View view){
         Intent intent = new Intent(this, MoodSelector.class);
+        startActivity(intent);
+    }
+    public void graphPressed(View view) {
+        Intent intent = new Intent(this, GraphActivity.class);
         startActivity(intent);
     }
 
