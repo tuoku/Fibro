@@ -81,14 +81,14 @@ public class MainActivity extends AppCompatActivity {
 
          graph.getGridLabelRenderer().setHumanRounding(false);
          //graph.addSeries(Graph.getInstance().getData());
-            Graph.getInstance().getData().setOnDataPointTapListener(new OnDataPointTapListener() {
+           /* Graph.getInstance().getData().setOnDataPointTapListener(new OnDataPointTapListener() {
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
                 Intent intent = new Intent(MainActivity.this, GraphDetailActivity.class);
                 intent.putExtra("X", dataPoint.getX());
                 startActivity(intent);
             }
-        });
+        });*/
     }
 
 
