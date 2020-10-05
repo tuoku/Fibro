@@ -1,5 +1,7 @@
 package com.example.fibro;
 
+import android.util.Log;
+
 import java.sql.Date;
 import java.util.Map;
 
@@ -15,6 +17,7 @@ public class PreferenceService {
     public static void saveData(String json){
         int i = Days.getInstance().getIndex();
         MainActivity.prefs.edit().putString(String.valueOf(i),json).commit();
+        Log.d("saveIndex", String.valueOf(i));
         Days.getInstance().setIndex(i+1);
 
     }
