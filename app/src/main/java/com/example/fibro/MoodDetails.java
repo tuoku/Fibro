@@ -29,10 +29,13 @@ public class MoodDetails extends AppCompatActivity {
         DayCreator.getInstance().setDetails(addDetails.getText().toString());
         DayCreator.getInstance().setDate(new Date(System.currentTimeMillis()));
         Gson gson = new Gson();
-        String jsonDays = gson.toJson(DayCreator.getInstance().createDay());
+
+        Day d = DayCreator.getInstance().createDay();
+        String jsonDays = gson.toJson(d);
+        String key = d.getDate().toString();
         Log.d("save",jsonDays);
-        PreferenceService.saveData(jsonDays);
-        PreferenceService.setIndex();
+        Days.getInstance().addDay(d);
+        PreferenceService.saveData(key, jsonDays);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

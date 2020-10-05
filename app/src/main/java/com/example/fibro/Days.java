@@ -11,6 +11,8 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +23,7 @@ import com.google.gson.reflect.*;
 import com.jjoe64.graphview.series.DataPoint;
 
 public class Days {
-    private List<Day> days;
+    private ArrayList<Day> days;
     private static final Days ourInstance = new Days();
     private int index;
 
@@ -36,14 +38,14 @@ public class Days {
         //index = Integer.parseInt(PreferenceService.getByIndex("INDEX"));
     }
 
-    public List<Day> getDays(){
+    public ArrayList<Day> getDays(){
         return days;
     }
 
-    public void refresh(){
+
+    public void fetchDaysFromPrefs(){
         Map<String,String> resMap = PreferenceService.getAll();
         Iterator it = resMap.entrySet().iterator();
-        double x = Graph.getInstance().series.getHighestValueX() + 1;
         while(it.hasNext()){
             Map.Entry pair = (Map.Entry)it.next();
             if(!(pair.getKey().equals("INDEX"))) {
@@ -51,11 +53,24 @@ public class Days {
                 String ss = s.replace("[", "");
                 String sss = ss.replace("]", "");
                 Day d = gson.fromJson(sss, Day.class);
-                Graph.getInstance().addPoint(new DataPoint(d.getDate().getTime(), d.getMood()));
-                x++;
+                days.add(d);
+                Log.d("FETCHDAYS", "Added " + pair.getKey());
+                 //   Graph.getInstance().addPoint(new DataPoint(d.getDate().getTime(), d.getMood()));
+                   // L
             }else break;
         }
+        Log.d("FETCHDAYS", "Added all Days to ArrayList");
+        sortArray(days);
+        Log.d("FETCHDAYS", "Sorted ArrayList");
     }
+    private void sortArray(ArrayList<Day> arrayList) {
+        if (arrayList != null) {
+            Collections.sort(arrayList, new Comparator<Day>() {
+                @Override
+                public int compare(Day o1, Day o2) {
+                    return o1.getDate().compareTo(o2.getDate()); }
+            });
+        } }
 
     public int getIndex(){
         return index;
@@ -63,5 +78,16 @@ public class Days {
 
     public void setIndex(int i){
         this.index=i;
+    }
+
+    public void addDay(Day d){
+        days.add(d);
+    }
+    public Long getLowestX(){
+        return days.get(0).getDate().getTime();
+    }
+
+    public Long getHighestX(){
+        return days.get(days.size()-1).getDate().getTime();
     }
 }

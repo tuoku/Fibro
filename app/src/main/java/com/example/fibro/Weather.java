@@ -20,7 +20,7 @@ import com.google.gson.reflect.*;
  * The Weather class is used to read weather data from OpenWeatherMap API
  * And contains methods that can be used from outside the class to access the data
  */
-public class Weather { // TODO: Run networking on new Thread or AsyncTask
+public class Weather implements Runnable { // TODO: Run networking on new Thread or AsyncTask
 
     double pressure;
 
@@ -37,8 +37,9 @@ public class Weather { // TODO: Run networking on new Thread or AsyncTask
     }
 
     public void refresh(){
-
-
+        //Thread thread = new Thread(this);
+        //thread.start();
+        run();
     }
 
     /***
@@ -46,8 +47,8 @@ public class Weather { // TODO: Run networking on new Thread or AsyncTask
      * and stores the values in variables for later use.
      * Overrides run method from Thread to run networking in a thread other than main.
      */
-
-    public void getData(){
+    //@Override
+    public void run(){
 
         String urlString = "https://api.openweathermap.org/data/2.5/weather?q=" + "Espoo" + "&appid=" + "71157a0f49ae0e66bc6ad5d523d8554b"; // API URL + location and API key TODO: variable location
 
@@ -65,8 +66,8 @@ public class Weather { // TODO: Run networking on new Thread or AsyncTask
             Map<String, Object> respMap = jsonToMap(result.toString()); // Maps the raw data
             Map<String, Object> mainMap = jsonToMap(respMap.get("main").toString()); // Maps data from category "main" to its own Map
 
-            pressure = Double.parseDouble(mainMap.get("pressure").toString()); // Assign value "pressure" from "main" category of Mapped data to variable
-                                                                                // TODO: Read and store more information into other variables
+            setPressure(Double.parseDouble(mainMap.get("pressure").toString())); // Assign value "pressure" from "main" category of Mapped data to variable
+            Log.d("PRESSURE",getPressure());                                                                    // TODO: Read and store more information into other variables
 
 
         } catch(IOException e){
@@ -82,6 +83,7 @@ public class Weather { // TODO: Run networking on new Thread or AsyncTask
     public String getPressure(){
         return String.valueOf(pressure);
     }
+    public void setPressure(double p){this.pressure = p;}
     public Boolean isLowPressure(){
         if(pressure < 1013.0){
             return true;
