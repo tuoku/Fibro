@@ -102,6 +102,7 @@
                 android:layout_width="382dp"
                 android:layout_height="256dp"
                 android:layout_marginBottom="96dp"
+                android:onClick="graphPressed"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.cardview.widget.CardView>

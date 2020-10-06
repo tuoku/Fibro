@@ -94,10 +94,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MoodSelector.class);
         startActivity(intent);
     }
-    //public void graphPressed(View view) {
-      //  Intent intent = new Intent(this, GraphActivity.class);
-        //startActivity(intent);
-    //}
+    public void graphPressed(View view) {
+        Intent intent = new Intent(this, GraphDetailActivity.class);
+        startActivity(intent);
+    }
 
     public void clear(View v){
         prefs.edit().clear().commit();

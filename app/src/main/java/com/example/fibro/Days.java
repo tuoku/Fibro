@@ -87,6 +87,10 @@ public class Days {
         days.add(d);
     }
 
+    public Day getDay(int index){
+        return days.get(index);
+    }
+
     public Long getLowestX() {
         if(!(days.isEmpty())) {
             return days.get(0).getDate().getTime();

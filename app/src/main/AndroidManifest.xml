@@ -16,6 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".DayDetailActivity"></activity>
+        <activity android:name=".GraphDetailActivity" />
         <activity android:name=".MoodDetails" />
         <activity android:name=".MoodSelector" />
         <activity android:name=".MainActivity">

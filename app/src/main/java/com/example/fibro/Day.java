@@ -26,6 +26,6 @@ public class Day {
 
     @Override
     public String toString(){
-        return "Day date=" + date + ", mood=" + mood + ", details=" + details + ",pressure= " + pressure;
+        return date.toString();
     }
 }
