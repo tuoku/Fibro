@@ -23,8 +23,8 @@ TextView weatherPressureTv;
         int i = b.getInt("EXTRA", 0);
 
         dayDateTv.setText(Days.getInstance().getDay(i).getDate().toString());
-        dayMoodTv.setText("Mood: " + String.valueOf(Days.getInstance().getDay(i).getMood()));
+        dayMoodTv.setText("Vointi: " + String.valueOf(Days.getInstance().getDay(i).getMood()));
         dayDetailsTv.setText(Days.getInstance().getDay(i).getDetails());
-        weatherPressureTv.setText("Pressure: " + String.valueOf(Days.getInstance().getDay(i).getPressure()));
+        weatherPressureTv.setText("Ilmanpaine: " + String.valueOf(Days.getInstance().getDay(i).getPressure()));
     }
 }
