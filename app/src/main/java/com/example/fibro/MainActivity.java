@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -14,6 +16,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.Utils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
@@ -26,6 +38,7 @@ import com.jjoe64.graphview.series.Series;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -35,10 +48,10 @@ public class MainActivity extends AppCompatActivity {
     TextView text;
     ImageView icon;
     FloatingActionButton fab;
-    GraphView graph;
     public static SharedPreferences prefs;
     Calendar calendar = Calendar.getInstance();
-    public Context context;
+    public static Context context;
+    LineChart graph;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,47 +61,18 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         prefs = getSharedPreferences("days", MODE_PRIVATE);
-        Days.getInstance().fetchDaysFromPrefs();
+        Days.getInstance().fetchDaysFromPrefs();    //Get Days from SharedPreferences
 
         text = findViewById(R.id.weatherText);
         icon = findViewById(R.id.weatherIcon);
         fab = findViewById(R.id.fab);
+        graph = findViewById(R.id.graph);
+
         //GPSTracker gps = new GPSTracker(this);
         refreshWeather();
         //ThreadService.enqueueWork(this, getIntent());
-        graph = findViewById(R.id.graph);
-        graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-            @Override
-            public String formatLabel(double value, boolean isValueX) {
-                if (isValueX) {
-                    Format formatter = new SimpleDateFormat("dd-MM");
-                    return formatter.format(value);
-                }
-                return super.formatLabel(value, isValueX);
-            }
-        });
         //prefs.edit().clear().commit();
 
-        graph.getViewport().setYAxisBoundsManual(true);
-         graph.getViewport().setXAxisBoundsManual(true);
-         graph.getViewport().setMaxY(5.0);
-         graph.getViewport().setMinY(1.0);
-
-         graph.getViewport().setScrollable(true);
-         graph.getViewport().setScalable(true);
-
-       //  graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getApplicationContext()));
-
-         graph.getGridLabelRenderer().setHumanRounding(false);
-         //graph.addSeries(Graph.getInstance().getData());
-           /* Graph.getInstance().getData().setOnDataPointTapListener(new OnDataPointTapListener() {
-            @Override
-            public void onTap(Series series, DataPointInterface dataPoint) {
-                Intent intent = new Intent(MainActivity.this, GraphDetailActivity.class);
-                intent.putExtra("X", dataPoint.getX());
-                startActivity(intent);
-            }
-        });*/
     }
 
 
@@ -110,33 +94,40 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MoodSelector.class);
         startActivity(intent);
     }
-    public void graphPressed(View view) {
-        Intent intent = new Intent(this, GraphActivity.class);
-        startActivity(intent);
-    }
+    //public void graphPressed(View view) {
+      //  Intent intent = new Intent(this, GraphActivity.class);
+        //startActivity(intent);
+    //}
 
     public void clear(View v){
         prefs.edit().clear().commit();
-       // Days.getInstance().refresh();
-        PreferenceService.setIndex();
-        graph.addSeries(Graph.getInstance().getData());
-        graph.removeAllSeries();
-        Days.getInstance().setIndex(PreferenceService.getIndex());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onResume(){
-        graph.removeAllSeries();
-        Graph.getInstance().addDaysToSeries();
+        XAxis x = graph.getXAxis();
+        x.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                SimpleDateFormat sdp = new SimpleDateFormat("dd-MM");
+                return sdp.format(new Date(new Float(value).longValue()));
+            }
+        });
+        x.setGranularityEnabled(true);
+        x.setGranularity(1f);
+        //x.setCenterAxisLabels(true);
+        x.setLabelCount(Graph.getInstance().entries.size(),false);
+        x.setDrawGridLines(false);
+        YAxis y = graph.getAxisLeft();
+        y.setLabelCount(5);
+        y.setDrawGridLinesBehindData(false);
+        graph.getAxisRight().setEnabled(false);
+        Graph.getInstance().addDaysToSeries(); //Add DataPoints to series
+        Graph.getInstance().init();
+        graph.setDrawGridBackground(false);
+        graph.setData(Graph.getInstance().lineData);
+        graph.invalidate();
 
-        graph.addSeries(Graph.getInstance().getData());
-        Log.d("MAIN", "ADDED TO SERIES");
-        graph.getViewport().setMaxX(Days.getInstance().getHighestX());
-        graph.getViewport().setMinX(Days.getInstance().getLowestX());
-        graph.getGridLabelRenderer().setNumHorizontalLabels(Days.getInstance().getDays().size()+1);
-        Log.d("LowestX", String.valueOf(Days.getInstance().getLowestX()));
-        Log.d("HighestX", String.valueOf(Days.getInstance().getHighestX()));
         super.onResume();
     }
 
