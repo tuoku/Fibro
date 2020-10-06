@@ -1,9 +1,11 @@
 package com.example.fibro;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -91,8 +93,35 @@ public class MainActivity extends AppCompatActivity {
         DayCreator.getInstance().setPressure(weather.pressure);
     }
     public void fabPressed(View view){
-        Intent intent = new Intent(this, MoodSelector.class);
-        startActivity(intent);
+        boolean alreadyLoggedToday = false;
+        for(Day d : Days.getInstance().getDays()){
+            if(d.date.toString().equals(new java.sql.Date(System.currentTimeMillis()).toString())){
+                alreadyLoggedToday = true;
+            }
+        } Log.d("AlreadyLogged", String.valueOf(alreadyLoggedToday));
+        if(alreadyLoggedToday == true){
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setMessage("Haluatko korvata tiedot uusilla?")
+                    .setTitle("Olet jo kirjannut tämän päivän tiedot");
+            builder.setPositiveButton("Kyllä", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Intent intent = new Intent(MainActivity.context, MoodSelector.class);
+                    startActivity(intent);
+                }
+            });
+            builder.setNegativeButton("En", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+        } else {
+            Intent intent = new Intent(this, MoodSelector.class);
+            startActivity(intent);
+        }
+
     }
     public void graphPressed(View view) {
         Intent intent = new Intent(this, GraphDetailActivity.class);
@@ -115,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         });
         x.setGranularityEnabled(true);
         x.setGranularity(1f);
-        //x.setCenterAxisLabels(true);
+        x.setCenterAxisLabels(true);
         x.setLabelCount(Graph.getInstance().entries.size(),false);
         x.setDrawGridLines(false);
         YAxis y = graph.getAxisLeft();

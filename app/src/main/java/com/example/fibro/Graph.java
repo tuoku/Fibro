@@ -47,7 +47,10 @@ public class Graph {
             entries.add(new Entry(d.getDate().getTime(), d.getMood()));
             Log.d("INIT", "Added " + d.getDate() + " to entires");
             LineDataSet dataSet = new LineDataSet(entries,"");
+            dataSet.setLineWidth(4f);
+            dataSet.setCircleRadius(6f);
             lineData = new LineData(dataSet);
+
 
         }
     }

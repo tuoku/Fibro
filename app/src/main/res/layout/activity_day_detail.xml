@@ -10,9 +10,9 @@
         android:id="@+id/dayDateTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="162dp"
-        android:layout_marginTop="37dp"
+        android:layout_marginTop="32dp"
         android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,29 +20,33 @@
         android:id="@+id/dayMoodTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="115dp"
+        android:layout_marginStart="32dp"
+        android:gravity="center"
         android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.19999999" />
 
     <TextView
         android:id="@+id/weatherPressureTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="33dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginEnd="32dp"
+        android:gravity="center"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/dayDateTv"
-        app:layout_constraintTop_toBottomOf="@+id/dayDateTv" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.19" />
 
     <TextView
         android:id="@+id/dayDetailsTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="87dp"
-        android:layout_marginEnd="36dp"
         android:text="TextView"
-        app:layout_constraintEnd_toStartOf="@+id/weatherPressureTv"
-        app:layout_constraintTop_toBottomOf="@+id/weatherPressureTv" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dayDateTv" />
 </androidx.constraintlayout.widget.ConstraintLayout>
