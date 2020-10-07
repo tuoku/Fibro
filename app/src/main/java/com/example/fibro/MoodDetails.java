@@ -28,14 +28,7 @@ public class MoodDetails extends AppCompatActivity {
     public void onSaveButtonPressed(View v) {
         DayCreator.getInstance().setDetails(addDetails.getText().toString());
         DayCreator.getInstance().setDate(new Date(System.currentTimeMillis()));
-        Gson gson = new Gson();
-
-        Day d = DayCreator.getInstance().createDay();
-        String jsonDays = gson.toJson(d);
-        String key = d.getDate().toString();
-        Log.d("save",jsonDays);
-        Days.getInstance().addDay(d);
-        PreferenceService.saveData(key, jsonDays);
+        DayCreator.getInstance().createDay();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

@@ -23,6 +23,7 @@ import java.lang.reflect.Array;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.Math.*;
 
 public class Graph {
     LineData lineData;
@@ -45,14 +46,13 @@ public class Graph {
             dates.add(d.getDate().toString());
             Log.d("INIT", d.getDate().toString());
             entries.add(new Entry(d.getDate().getTime(), d.getMood()));
-            Log.d("INIT", "Added " + d.getDate() + " to entires");
-            LineDataSet dataSet = new LineDataSet(entries,"");
-            dataSet.setLineWidth(4f);
-            dataSet.setCircleRadius(6f);
-            lineData = new LineData(dataSet);
-
-
+            Log.d("INIT", "Added " + d.getDate() + " to entries");
         }
+        LineDataSet dataSet = new LineDataSet(entries,"");
+        dataSet.setLineWidth(4f);
+        dataSet.setCircleRadius(6f);
+        lineData = new LineData(dataSet);
+
     }
     public static Graph getInstance(){
         return ourInstance;

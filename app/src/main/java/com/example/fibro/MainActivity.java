@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         prefs = getSharedPreferences("days", MODE_PRIVATE);
+        //prefs.edit().clear().commit();
         Days.getInstance().fetchDaysFromPrefs();    //Get Days from SharedPreferences
 
         text = findViewById(R.id.weatherText);
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         //GPSTracker gps = new GPSTracker(this);
         refreshWeather();
         //ThreadService.enqueueWork(this, getIntent());
-        //prefs.edit().clear().commit();
+
 
     }
 
@@ -142,16 +143,21 @@ public class MainActivity extends AppCompatActivity {
                 return sdp.format(new Date(new Float(value).longValue()));
             }
         });
-        x.setGranularityEnabled(true);
-        x.setGranularity(1f);
-        x.setCenterAxisLabels(true);
-        x.setLabelCount(Graph.getInstance().entries.size(),false);
+
+       // x.setGranularity(1f);
+        //x.setGranularityEnabled(true);
+        x.setCenterAxisLabels(false);
+        x.setXOffset(-10);
+       // x.setLabelCount(Graph.getInstance().entries.size()+2,true);
         x.setDrawGridLines(false);
+        //x.setAxisMaximum(Days.getInstance().getHighestX());
+        //x.setAxisMinimum(Days.getInstance().getLowestX());
+        x.setPosition(XAxis.XAxisPosition.BOTTOM);
         YAxis y = graph.getAxisLeft();
         y.setLabelCount(5);
         y.setDrawGridLinesBehindData(false);
         graph.getAxisRight().setEnabled(false);
-        Graph.getInstance().addDaysToSeries(); //Add DataPoints to series
+        //Graph.getInstance().addDaysToSeries(); //Add DataPoints to series
         Graph.getInstance().init();
         graph.setDrawGridBackground(false);
         graph.setData(Graph.getInstance().lineData);
