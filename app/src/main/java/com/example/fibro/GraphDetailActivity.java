@@ -9,6 +9,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+/**
+ * Activity for showing list of saved days
+ */
 public class GraphDetailActivity extends AppCompatActivity {
     ListView graphLs;
     @Override
@@ -16,7 +19,7 @@ public class GraphDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph_detail);
         graphLs = findViewById(R.id.graphList);
-        graphLs.setAdapter(new ArrayAdapter<Day>(
+        graphLs.setAdapter(new ArrayAdapter<Day>( //set a ArrayAdapter and get the days array
                 this,
                 android.R.layout.simple_list_item_1,
                 Days.getInstance().getDays()
@@ -25,7 +28,7 @@ public class GraphDetailActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?>adapterView, View v, int i, long l){
                 Intent nextActivity = new Intent(GraphDetailActivity.this, DayDetailActivity.class);
-                nextActivity.putExtra("EXTRA", i);
+                nextActivity.putExtra("EXTRA", i); //Send the index of tapped item to DayDetailActivity
                 startActivity(nextActivity);
             }
         });

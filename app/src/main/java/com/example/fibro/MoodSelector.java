@@ -7,6 +7,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+/**
+ * Activity where user selects a emoji that best matches their mood.
+ * The emoji represents an integer between 1 and 5.
+ */
+
 public class MoodSelector extends AppCompatActivity {
 
 
@@ -15,6 +20,11 @@ public class MoodSelector extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_moodselector);
     }
+
+    /**
+     * Passes the selected mood to DayCreator and takes user to next activity
+     * @param v view
+     */
     public void onButtonPressed(View v) {
         int mood = 0;
         switch(v.getId()) {

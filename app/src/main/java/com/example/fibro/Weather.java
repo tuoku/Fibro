@@ -56,7 +56,7 @@ public class Weather implements Runnable { // TODO: Run networking on new Thread
             StringBuilder result = new StringBuilder();
             URL url = new URL(urlString);
             URLConnection conn = url.openConnection(); // Inits connection to API
-            conn.setConnectTimeout(1000);
+            conn.setConnectTimeout(1000); //since currently runs on mainthread, don't wait too long
             BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line;
             while ((line = rd.readLine()) != null){ // Adds JSON data from API line-by-line into a String
@@ -84,7 +84,17 @@ public class Weather implements Runnable { // TODO: Run networking on new Thread
     public String getPressure(){
         return String.valueOf(pressure);
     }
+
+    /**
+     * Set the presssure to something
+     * @param p pressure
+     */
     public void setPressure(double p){this.pressure = p;}
+
+    /**
+     * Returns true if current atmospheric pressure is below 1,013 hPa
+     * @return boolean
+     */
     public Boolean isLowPressure(){
         if(pressure < 1013.0){
             return true;

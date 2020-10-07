@@ -2,21 +2,19 @@ package com.example.fibro;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import com.google.gson.Gson;
-
 import java.sql.Date;
+
+/**
+ * Activity where user can input any extra details about their day.
+ */
 
 public class MoodDetails extends AppCompatActivity {
     EditText addDetails;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +24,10 @@ public class MoodDetails extends AppCompatActivity {
 
     }
     public void onSaveButtonPressed(View v) {
-        DayCreator.getInstance().setDetails(addDetails.getText().toString());
-        DayCreator.getInstance().setDate(new Date(System.currentTimeMillis()));
-        DayCreator.getInstance().createDay();
-        Intent intent = new Intent(this, MainActivity.class);
+        DayCreator.getInstance().setDetails(addDetails.getText().toString()); //pass the details to DayCreator
+        DayCreator.getInstance().setDate(new Date(System.currentTimeMillis())); //and the date
+        DayCreator.getInstance().createDay(); // now DayCreator has all the information needed to create a new Day, so create one
+        Intent intent = new Intent(this, MainActivity.class); // return to homescreen
         startActivity(intent);
     }
 }

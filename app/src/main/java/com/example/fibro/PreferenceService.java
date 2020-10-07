@@ -1,36 +1,26 @@
 package com.example.fibro;
 
-import android.util.Log;
-
-import java.sql.Date;
 import java.util.Map;
 
+/**
+ * Class used to handle saving of data to SharedPreferences
+ * and getting it back.
+ */
 public class PreferenceService {
-
-    public static void setIndex(){
-        MainActivity.prefs.edit().putInt("INDEX",Days.getInstance().getIndex()).commit();
-    }
-    public static int getIndex(){
-        return MainActivity.prefs.getInt("INDEX",0);
-    }
-
+    /**
+     * Saves data to SharedPreferences
+     * @param key key to use
+     * @param json the value to save
+     */
     public static void saveData(String key,String json){
-        int i = Days.getInstance().getIndex();
         MainActivity.prefs.edit().putString(key,json).commit();
-        Log.d("saveIndex", String.valueOf(i));
-        Days.getInstance().setIndex(i+1);
-
     }
 
-    public static String getByIndex(String i){
-        return MainActivity.prefs.getString(i, "0");
-    }
-
+    /**
+     * Returns a Map of everything saved
+     * @return Map
+     */
     public static Map getAll(){
         return MainActivity.prefs.getAll();
-    }
-
-    public void reset(){
-        MainActivity.prefs.edit().clear();
     }
 }
