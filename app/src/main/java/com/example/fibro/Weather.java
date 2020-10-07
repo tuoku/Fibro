@@ -56,6 +56,7 @@ public class Weather implements Runnable { // TODO: Run networking on new Thread
             StringBuilder result = new StringBuilder();
             URL url = new URL(urlString);
             URLConnection conn = url.openConnection(); // Inits connection to API
+            conn.setConnectTimeout(1000);
             BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line;
             while ((line = rd.readLine()) != null){ // Adds JSON data from API line-by-line into a String

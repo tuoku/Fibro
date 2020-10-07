@@ -15,10 +15,12 @@ TextView weatherPressureTv;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_day_detail);
+
         dayDateTv = findViewById(R.id.dayDateTv);
         dayMoodTv = findViewById(R.id.dayMoodTv);
         dayDetailsTv = findViewById(R.id.dayDetailsTv);
         weatherPressureTv = findViewById(R.id.weatherPressureTv);
+
         Bundle b = getIntent().getExtras();
         int i = b.getInt("EXTRA", 0);
 

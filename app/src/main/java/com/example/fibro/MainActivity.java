@@ -79,16 +79,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void refreshWeather()
-    {Weather weather = new Weather();
+    public void refreshWeather() {
+        Weather weather = new Weather();
         weather.refresh();
         Log.d("PRESSURE AFTER THREAD", weather.getPressure());
-        if(weather.isLowPressure() == true){
-            text.setText("On matalapainetta!");
+        Log.d("pressure length", String.valueOf(weather.getPressure().length()));
+        if(weather.getPressure().length() == 3) {
+            text.setText("Cannot reach API");
             icon.setImageResource(R.drawable.very_sad_emoticon);
+            Log.d("equals 0", "eq0");
         }else {
-            text.setText("Ei matalapainetta");
-            icon.setImageResource(R.drawable.awesome_emoticon);
+            if (weather.isLowPressure() == true) {
+                text.setText("On matalapainetta!");
+                icon.setImageResource(R.drawable.very_sad_emoticon);
+            } else {
+                text.setText("Ei matalapainetta");
+                icon.setImageResource(R.drawable.awesome_emoticon);
+            }
         }
         Log.i("FIBRO",weather.getPressure());
         DayCreator.getInstance().setPressure(weather.pressure);
